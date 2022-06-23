@@ -78,3 +78,13 @@ h6 {
 #chart .arrow_box .header {
   @apply font-normal text-base text-gray-400
 }
+
+.loader {
+  animation: rotation 1.5s infinite linear;
+}
+
+@keyframes rotation {
+  100% {
+    transform: rotatey(360deg);
+  }
+}

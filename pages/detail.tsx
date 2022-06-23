@@ -6,6 +6,11 @@ import { addItem, removeItem, increase, decrease } from '../state/basket'
 import { useAppDispatch, useAppSelector } from '../state/hooks'
 import { useEffect, useState } from 'react'
 import { BsDash, BsFileMinus, BsPlus } from 'react-icons/bs'
+import useSWR from 'swr'
+import Loader from '../components/general/Loader'
+import Error from '../components/general/Error'
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 
 const ShopItemDetail = () => {
@@ -13,8 +18,12 @@ const ShopItemDetail = () => {
     const { id } = router.query
     const dispatch = useAppDispatch()
     const { basketItems } = useAppSelector(state => state.basket)
-    const product = products.filter(product => product.id === id)[0]
     const [inBasketCount, setInBasketCount] = useState(0)
+    const [loading, setLoading] = useState(false)
+
+    // const product = products.filter(product => product.id === id)[0]
+    const { data, error } = useSWR(`https://atf-test.backendboyz.repl.co/api/product/${id}`, fetcher)
+    const product = data
 
     const addToBasket = () => {
         dispatch(addItem({ id: id, count: 1 }))
@@ -28,9 +37,9 @@ const ShopItemDetail = () => {
         return (() => setInBasketCount(0))
     }, [basketItems])
 
-    if (!id) {
-        return (<></>)
-    }
+    
+    if (error || !id) return <Error />
+    if (!data) return <Loader />
 
     return (
         <div className='w-screen min-h-screen animate__animated animate__fadeIn bg-gray-50 flex flex-col items-center'>

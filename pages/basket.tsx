@@ -14,7 +14,7 @@ import { IoMdClose } from 'react-icons/io';
 import { getLocal } from '../lib/local';
 
 
-const Home: NextPage = () => {
+const Basket: NextPage = () => {
     const dispatch = useAppDispatch()
     const { basketItems } = useAppSelector(state => state.basket)
     const [basketList, setBasketList] = useState<ProductData[]>([])
@@ -82,4 +82,4 @@ const Home: NextPage = () => {
 }
 
 
-export default Home
+export default Basket

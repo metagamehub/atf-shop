@@ -1,5 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import Link from 'next/link';
+
 import { useEffect, useState } from 'react'
 import { Toolbar } from '../components'
 import { useAppDispatch, useAppSelector } from '../state/hooks'
@@ -13,7 +15,9 @@ import { NetworkType } from '@airgap/beacon-sdk'
 import { connectWallet, disconnectWallet, _walletConfig } from '../state/walletActions'
 
 
-const Home: NextPage = () => {
+
+const Profile: NextPage = () => {
+
     const dispatch = useAppDispatch()
     const [openDetail, setOpenDetail] = useState(false)
     const user  = useAppSelector((state) => state.account.walletConfig.user)
@@ -71,12 +75,16 @@ const Home: NextPage = () => {
                 >
                     Connect Wallet
                 </div>
-                <div className="rounded-full mt-10 border border-black p-4 cursor-pointer w-44 text-center font-medium self-center">
-                    My Orders
-                </div>
+                <Link href="/orders">
+                    <a className='rounded-full mt-10 border border-black p-4 cursor-pointer w-44 text-center font-medium self-center'>
+                        My Orders
+                    </a>
+                </Link>
+
             </div>
         </>
     )
 }
 
-export default Home
+
+export default Profile

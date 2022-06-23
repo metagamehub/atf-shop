@@ -5,13 +5,14 @@ interface ShopCardProps {
     price: number;
     title: string;
     image: string;
+    classes?: string;
 }
 
 
-const ShopCard = ({ id, price, title, image }: ShopCardProps) => {
+const ShopCard = ({ id, price, title, image, classes }: ShopCardProps) => {
     return (
         <Link href={`/detail?id=${id}`}>
-            <a className='cursor-pointer relative rounded-xl bg-gray-100 items-center justify-start pt-8 flex flex-col w-40 h-56 overflow-hidden'>
+            <a className={`${classes} cursor-pointer relative rounded-xl bg-gray-100 items-center justify-start pt-8 flex flex-col w-40 h-56 overflow-hidden`}>
                 <div className='absolute top-2 right-2 rounded-xl flex space-x-3 items-center justify-center min-w-max px-2 bg-white'>
                     <p className='font-bold'>{price}</p>
                 </div>

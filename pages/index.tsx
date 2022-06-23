@@ -7,21 +7,13 @@ import ShopCard from '../components/ShopCard';
 import { BsFilterRight } from "react-icons/bs"
 
 import products from "../data/products.json"
+import Filter from '../components/Filter';
+import Link from 'next/link';
 
 
 const Home: NextPage = () => {
     const [openFilter, setOpenFilter] = useState(false)
-    const [filter, setFilter] = useState<string[]>([])
     const [slide, setSlide] = useState(0)
-
-    const updateFilter = (name: string) => {
-        const index = filter.findIndex(item => item === name);
-        if (index === -1) {
-            setFilter(filter => [...filter, name])
-        } else {
-            setFilter(filter => filter.filter(item => item !== name))
-        }
-    }
 
     // useEffect(()=>{
     //     setTimeout(()=>{
@@ -42,41 +34,7 @@ const Home: NextPage = () => {
             {openFilter &&
                 <>
                     <div onClick={() => setOpenFilter(false)} className='w-screen h-screen absolute inset-0 z-20' />
-                    <div className='fixed flex flex-col justify-between bottom-0 left-0 p-5 w-screen min-h-[80vh] bg-white z-20 animate__animated animate__fadeInUpBig animate__faster shadow-round rounded-t-2xl'>
-
-                        <div className='flex flex-col space-y-2 font-jost'>
-                            <p className='text-3xl mb-5 font-sans'>Filters</p>
-
-                            <div onClick={() => updateFilter("Event")} className={`${filter.indexOf("Event") !== -1 && "border border-black"} rounded-xl bg-gray-100 p-3 text-xl cursor-pointer`}>
-                                Event
-                            </div>
-
-                            <div onClick={() => updateFilter("Clothes")} className={`${filter.indexOf("Clothes") !== -1 && "border border-black"} rounded-xl bg-gray-100 p-3 text-xl cursor-pointer`}>
-                                Clothes
-                            </div>
-
-                            <div onClick={() => updateFilter("Goodies")} className={`${filter.indexOf("Goodies") !== -1 && "border border-black"} rounded-xl bg-gray-100 p-3 text-xl cursor-pointer`}>
-                                Goodies
-                            </div>
-
-                            <div onClick={() => updateFilter("Real Life")} className={`${filter.indexOf("Real Life") !== -1 && "border border-black"} rounded-xl bg-gray-100 p-3 text-xl cursor-pointer`}>
-                                Real Life
-                            </div>
-
-                            <div onClick={() => updateFilter("Metaverse Only")} className={`${filter.indexOf("Metaverse Only") !== -1 && "border border-black"} rounded-xl bg-gray-100 p-3 text-xl cursor-pointer`}>
-                                Metaverse Only
-                            </div>
-
-                        </div>
-
-                        <div className='flex items-center font-jost w-full justify-center space-x-10'>
-                            <p onClick={() => setOpenFilter(false)} className='text-xl cursor-pointer'>Dismiss</p>
-                            <div onClick={() => setOpenFilter(false)} className='bg-[#020202] text-[#FDE100] rounded-full p-4 w-30 text-center font-jost text-lg cursor-pointer'>
-                                Apply
-                            </div>
-
-                        </div>
-                    </div>
+                    <Filter close={() => setOpenFilter(false)} />
                 </>
             }
 
@@ -87,22 +45,61 @@ const Home: NextPage = () => {
                     <BsFilterRight onClick={() => setOpenFilter(!openFilter)} className='text-3xl cursor-pointer' />
                 </div>
 
-                {/* <div className='w-screen -ml-5 mb-5 h-32 relative'>
-                    <img src="/images/banner-1.jpg" className={`absolute inset-0 w-full animate__animated ${slide === 2 && "hidden"} ${slide === 0 && "animate__slideInRight"} ${slide === 1 && "animate__slideOutLeft"}`}/>
-                    <img src="/images/banner-2.jpg" className={`absolute inset-0 w-full animate__animated ${slide === 0 && "hidden"}  ${slide === 1 && "animate__slideInRight"} ${slide === 2 && "animate__slideOutLeft"}`}/>
-                    <img src="/images/banner-3.jpg" className={`absolute inset-0 w-full animate__animated ${slide === 1 && "hidden"} ${slide === 2 && "animate__slideInRight"} ${slide === 0 && "animate__slideOutLeft"}`}/>
-                </div> */}
-
                 <div className='w-screen -ml-5 mb-5 h-auto '>
-                    <img src="/images/banner-2.jpg" className={`w-full`}/>
+                    <img src="/images/banner-home.jpg" className={`w-full`} />
                 </div>
 
+                <p className='font-bold text-3xl'>Shop</p>
 
-                <p className='font-bold text-3xl mb-5'>Shop</p>
+                <div className='flex justify-between items-end pb-3 mt-10'>
+                    <p className='text-xl'>Apparel</p>
+                    <Link href="/apparel">
+                        <a className='text-gray-500 font-jost'>See all</a>
+                    </Link>
+                </div>
 
-                <div className="grid grid-cols-2 gap-5 place-items-center">
-                    {products.map(product => (
-                        <ShopCard key={product.id} id={product.id} price={product.price} title={product.title} image={product.image} />
+                <div className="flex space-x-5 overflow-x-auto no-scroll-bar max-w-full">
+                    {products.filter(product => product.category === "apparel").map(product => (
+                        <ShopCard key={product.id} id={product.id} price={product.price} title={product.title} image={product.image} classes="min-w-[12rem]" />
+                    ))}
+                </div>
+
+                <div className='flex justify-between items-end pb-3 mt-10'>
+                    <p className='text-xl'>NFTs</p>
+                    <Link href="/nfts">
+                        <a className='text-gray-500 font-jost'>See all</a>
+                    </Link>
+                </div>
+
+                <div className="flex space-x-5 overflow-x-auto no-scroll-bar max-w-full">
+                    {products.filter(product => product.category === "nfts").map(product => (
+                        <ShopCard key={product.id} id={product.id} price={product.price} title={product.title} image={product.image} classes="min-w-[12rem]" />
+                    ))}
+                </div>
+
+                <div className='flex justify-between items-end pb-3 mt-10'>
+                    <p className='text-xl'>Events</p>
+                    <Link href="/events">
+                        <a className='text-gray-500 font-jost'>See all</a>
+                    </Link>
+                </div>
+
+                <div className="flex space-x-5 overflow-x-auto no-scroll-bar max-w-full">
+                    {products.filter(product => product.category === "events").map(product => (
+                        <ShopCard key={product.id} id={product.id} price={product.price} title={product.title} image={product.image} classes="min-w-[12rem]" />
+                    ))}
+                </div>
+
+                <div className='flex justify-between items-end pb-3 mt-10'>
+                    <p className='text-xl'>Metaverse Events</p>
+                    <Link href="/metaverse-events">
+                        <a className='text-gray-500 font-jost'>See all</a>
+                    </Link>
+                </div>
+
+                <div className="flex space-x-5 overflow-x-auto no-scroll-bar max-w-full">
+                    {products.filter(product => product.category === "metaverse-events").map(product => (
+                        <ShopCard key={product.id} id={product.id} price={product.price} title={product.title} image={product.image} classes="min-w-[12rem]" />
                     ))}
                 </div>
 
