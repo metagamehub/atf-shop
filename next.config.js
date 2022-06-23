@@ -27,11 +27,11 @@ module.exports = {
         return [
             {
                 source: '/api/loginGetNonce',
-                destination: 'http://localhost:8080/api/loginGetNonce',
+                destination: 'https://atf-test.backendboyz.repl.co/api/loginGetNonce',
             },
             {
                 source: '/api/loginWallet',
-                destination: 'http://localhost:8080/api/loginWallet',
+                destination: 'https://atf-test.backendboyz.repl.co/api/loginWallet',
             },
         ]
     },
